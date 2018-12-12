@@ -12,36 +12,37 @@ player2Elo = float(input())
 player1 = {'code': 1, 'name': "Player One", 'elo': player1Elo}
 player2 = {'code': 2, 'name': "Player Two", 'elo': player2Elo}
 
-
-# The players are gonna compete
+# The players are gonna compete. I calculate the expected score
 
 match = [player1, player2]
 e_score_p1 = match[0]['elo'] / (match[0]['elo'] + match[1]['elo'])
 e_score_p2 = match[1]['elo'] / (match[1]['elo'] + match[0]['elo'])
 
-# Now I am going to calculate a random result of the clash, and a random score
+# More inputs
 
-import random
+print("Introduce el resultado final: ")
+result = float(input())
 
-result = random.uniform(0,1)
+print("Introduce el marcador (0.5 - 1): ")
+score = float(input())
 
 ##### FUNCTIONS #####
 
-def player1Won(player):
+def player1Won():
 
     # This means that the Player One has won against the player two
-
-    score = random.uniform(0.500001, 1)  # This is the score. 0.50001 means very close result, 1 means huge victory
 
     lastEloP1 = match[0]['elo']
     lastEloP2 = match[1]['elo']
 
-    diff1 = (1-score) - e_score_p1	     # Comparison to expected
-    diff2 = score - e_score_p2
+    diff1 = score - e_score_p1	     # Comparison to expected
+    diff2 = -diff1
 
-    if player['code'] == player1:   # The player with higher elo is P1
-        newEloP1 = lastEloP1 + higherEloWins(diff1) * diff1
-        newEloP2 = lastEloP2 + lowerEloLoses(diff2) * diff2
+    if lastEloP1 > lastEloP2:   # The player with higher elo is P1
+        K_P1 = higherEloWins(diff1)
+        K_P2 = lowerEloLoses(diff2)
+        newEloP1 = lastEloP1 + K_P1 * diff1
+        newEloP2 = lastEloP2 + K_P2 * diff2
     else:                           # The player with higher elo is P2
         k1 = lowerEloWins(diff1)
         newEloP1 = lastEloP1 + k1 * diff1  
@@ -52,21 +53,22 @@ def player1Won(player):
     match[1]['elo'] = newEloP2
 
 
-def player2Won(player):
+def player2Won():
 
     # This means that the player 2 has won against the player one
-
-    score = random.uniform(0.5, 1)
 
     lastEloP1 = match[0]['elo']
     lastEloP2 = match[1]['elo']
 
-    diff1 = (1-score) - e_score_p1
-    diff2 = score - e_score_p2
 
-    if player['code'] == player1:   # The player with higher elo is P1
-        newEloP1 = lastEloP1 + higherEloLoses(diff1) * diff1      
-        newEloP2 = lastEloP2 + lowerEloWins(diff2) * diff2
+    diff2 = (1-score) - e_score_p2
+    diff1 = -diff2
+
+    if lastEloP1 > lastEloP2:   # The player with higher elo is P1
+        K_P1 = higherEloLoses(diff1)
+        newEloP1 = lastEloP1 + K_P1 * diff1 
+        K_P2 = lowerEloWins(diff2)     
+        newEloP2 = lastEloP2 + K_P2 * diff2
     else:                           # The player with higher elo is P2
         k1 = lowerEloLoses(diff1)
         newEloP1 = lastEloP1 + k1 * diff1
@@ -96,21 +98,21 @@ if e_score_p2 > 0.5:         # The second player has greater elo
 
     if result > e_score_p2:
         # P1 has won
-        player1Won(player2)
+        player1Won()
     if result == e_score_p2:
         draw()
     if result < e_score_p2:
-        player2Won(player2)
+        player2Won()
 
 else:                        # The first player has greater elo
 
     if result > e_score_p1:
         # P2 has won
-        player2Won(player1)
+        player2Won()
     if result == e_score_p1:
         draw()
     if result < e_score_p1:
-        player1Won(player1)
+        player1Won()
 
 # Now they have their new elo!
 
