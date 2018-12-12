@@ -38,6 +38,10 @@ def player1Won():
     diff1 = score - e_score_p1	     # Comparison to expected
     diff2 = -diff1
 
+    if diff1 < 0:
+        diff1 = abs(diff1)
+        diff2 = -diff2
+
     if lastEloP1 > lastEloP2:   # The player with higher elo is P1
         K_P1 = higherEloWins(diff1)
         K_P2 = lowerEloLoses(diff2)
@@ -60,9 +64,12 @@ def player2Won():
     lastEloP1 = match[0]['elo']
     lastEloP2 = match[1]['elo']
 
-
     diff2 = (1-score) - e_score_p2
     diff1 = -diff2
+
+    if diff2 < 0:
+        diff2 = abs(diff2)
+        diff1 = -diff1
 
     if lastEloP1 > lastEloP2:   # The player with higher elo is P1
         K_P1 = higherEloLoses(diff1)

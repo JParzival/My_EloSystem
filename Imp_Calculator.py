@@ -5,22 +5,22 @@ import math as m
 
 def higherEloWins(diff):
 
-    result = 1/(0.1*diff)
+    result = 1/(0.1*abs(diff))
     return result
 
 def lowerEloWins(diff):
 
-    result = abs((3/10)*diff + 2)
+    result = abs((3/10)*abs(diff) + 2)
     return result
 
 def higherEloLoses(diff):
 
-    result = abs((4/10)*diff + 1)
+    result = abs((4/10)*abs(diff) + 1)
     return result
 
 def lowerEloLoses(diff):
 
-    result = 1/(0.1*diff)
+    result = 1/(0.1*abs(diff))
     return result
 
 def draw_both(diff):
