@@ -35,6 +35,8 @@ def player1Won():
     lastEloP1 = match[0]['elo']
     lastEloP2 = match[1]['elo']
 
+    diffElo = lastEloP1 - lastEloP2
+
     diff1 = score - e_score_p1	     # Comparison to expected
     diff2 = -diff1
 
@@ -43,14 +45,14 @@ def player1Won():
         diff2 = -diff2
 
     if lastEloP1 > lastEloP2:   # The player with higher elo is P1
-        K_P1 = higherEloWins(diff1)
-        K_P2 = lowerEloLoses(diff2)
+        K_P1 = higherEloWins(diffElo)
+        K_P2 = lowerEloLoses(diffElo)
         newEloP1 = lastEloP1 + K_P1 * diff1
         newEloP2 = lastEloP2 + K_P2 * diff2
     else:                           # The player with higher elo is P2
-        k1 = lowerEloWins(diff1)
+        k1 = lowerEloWins(diffElo)
         newEloP1 = lastEloP1 + k1 * diff1  
-        k2 = higherEloLoses(diff2)    
+        k2 = higherEloLoses(diffElo)    
         newEloP2 = lastEloP2 + k2 * diff2
 
     match[0]['elo'] = newEloP1
@@ -64,6 +66,8 @@ def player2Won():
     lastEloP1 = match[0]['elo']
     lastEloP2 = match[1]['elo']
 
+    diffElo = lastEloP1 - lastEloP2
+
     diff2 = (1-score) - e_score_p2
     diff1 = -diff2
 
@@ -72,14 +76,14 @@ def player2Won():
         diff1 = -diff1
 
     if lastEloP1 > lastEloP2:   # The player with higher elo is P1
-        K_P1 = higherEloLoses(diff1)
+        K_P1 = higherEloLoses(diffElo)
         newEloP1 = lastEloP1 + K_P1 * diff1 
-        K_P2 = lowerEloWins(diff2)     
+        K_P2 = lowerEloWins(diffElo)     
         newEloP2 = lastEloP2 + K_P2 * diff2
     else:                           # The player with higher elo is P2
-        k1 = lowerEloLoses(diff1)
+        k1 = lowerEloLoses(diffElo)
         newEloP1 = lastEloP1 + k1 * diff1
-        k2 = higherEloWins(diff2)      
+        k2 = higherEloWins(diffElo)      
         newEloP2 = lastEloP2 + k2 * diff2
 
     match[0]['elo'] = newEloP1
@@ -93,8 +97,10 @@ def draw():
     lastEloP1 = match[0]['elo']
     lastEloP2 = match[1]['elo']
 
-    newEloP1 = lastEloP1 + draw_both(0.5 - e_score_p1) * (0.5 - e_score_p1)
-    newEloP2 = lastEloP2 + draw_both(0.5 - e_score_p2) * (0.5 - e_score_p2)
+    diffElo = lastEloP1 - lastEloP2
+
+    newEloP1 = lastEloP1 + draw_both(diffElo) * (0.5 - e_score_p1)
+    newEloP2 = lastEloP2 + draw_both(diffElo) * (0.5 - e_score_p2)
 
     match[0]['elo'] = newEloP1
     match[1]['elo'] = newEloP2
