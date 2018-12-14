@@ -5,25 +5,25 @@ import math as m
 
 def higherEloWins(diff):
 
-    result = 50000/(0.00001*abs(diff) + 50)
-    return result
-
-def lowerEloWins(diff):
-
     result = (1/10)*abs(diff) + 3
     return result
 
-def higherEloLoses(diff):
+def lowerEloWins(diff):     # Al revés?
+
+    result = 70/(0.0002*(abs(diff) + 700) ) - 50
+    return result
+
+def higherEloLoses(diff):    # Al revés?
 
     result = (1/10)*abs(diff) + 3
     return result
 
 def lowerEloLoses(diff):
 
-    result = 50000/(0.00001*abs(diff) + 50)
+    result = 70/(0.0002*(abs(diff) + 700) ) -50
     return result
 
-def draw_both(diff):
+def draw_both(diff):        # Al revés?
 
     result = (1/10)*abs(diff) + 3
     return result
